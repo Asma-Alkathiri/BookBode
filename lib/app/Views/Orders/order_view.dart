@@ -1,3 +1,4 @@
+import 'package:bookbode/app/Core/utilities/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../Core/bloc/order_bloc/order_bloc.dart';
@@ -18,7 +19,6 @@ class _OrderViewState extends State<OrderView> {
   void initState() {
     super.initState();
     if (userId != null) {
-      
       context.read<OrderBloc>().add(LoadBookings(userId!));
     }
   }
@@ -26,7 +26,10 @@ class _OrderViewState extends State<OrderView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("My Bookings")),
+      appBar: AppBar(
+          backgroundColor: hWhiteColor,
+          elevation: 0,
+          title: const Text("My Bookings")),
       body: BlocBuilder<OrderBloc, OrderState>(
         builder: (context, state) {
           if (state is OrderLoading) {
@@ -41,7 +44,11 @@ class _OrderViewState extends State<OrderView> {
               },
             );
           } else {
-            return const Text('No bookings found.');
+            return const Center(
+                child: Text(
+              'No bookings found',
+              style: TextStyle(color: hDarkGray, fontSize: 18),
+            ));
           }
         },
       ),

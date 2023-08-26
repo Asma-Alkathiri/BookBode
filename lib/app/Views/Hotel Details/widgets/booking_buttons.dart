@@ -13,15 +13,13 @@ class BookingButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomAppBar(
       color: hWhiteColor,
-
-      //elevation: 30,
-      height: 120,
-
+      height: 100,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             children: [
+              kVSpace32,
               const Text(
                 "Start from",
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),

@@ -1,4 +1,4 @@
-
+import 'package:bookbode/app/Core/utilities/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Models/hotel_model.dart';
@@ -13,7 +13,8 @@ class Facilities extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Facilities', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+        const Text('Facilities',
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
         const SizedBox(height: 10.0),
         if (facilities != null && facilities!.isNotEmpty)
           SingleChildScrollView(
@@ -29,7 +30,10 @@ class Facilities extends StatelessWidget {
             ),
           )
         else
-          const Text("No facilities available.")
+          const Text(
+            "No facilities available.",
+            style: TextStyle(color: hDarkGray, fontSize: 16),
+          )
       ],
     );
   }
