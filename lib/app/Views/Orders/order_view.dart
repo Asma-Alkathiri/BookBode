@@ -2,6 +2,7 @@ import 'package:bookbode/app/Core/utilities/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../Core/bloc/order_bloc/order_bloc.dart';
+import '../../Core/services/Database/database.dart';
 import 'widgets/booking_card.dart';
 import '../../../../main.dart';
 
@@ -23,6 +24,19 @@ class _OrderViewState extends State<OrderView> {
     }
   }
 
+  Future<void> _deleteBooking(String bookingId) async {
+    try {
+      await DatabaseService().deleteBooking(bookingId);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Booking deleted successfully.')));
+      // Trigger another load to refresh the list of bookings
+      context.read<OrderBloc>().add(LoadBookings(userId!));
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Error deleting booking: $e')));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +54,15 @@ class _OrderViewState extends State<OrderView> {
             return ListView.builder(
               itemCount: state.bookings.length,
               itemBuilder: (context, index) {
-                return BookingCard(booking: state.bookings[index]);
+                final booking = state.bookings[index];
+                return Dismissible(
+                  key: UniqueKey(),
+                  background: Container(color: Colors.red),
+                  onDismissed: (direction) {
+                    _deleteBooking(booking.bookingId);
+                  },
+                  child: BookingCard(booking: booking),
+                );
               },
             );
           } else {
